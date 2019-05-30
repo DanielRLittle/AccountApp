@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.qa.app.Account;
+import com.qa.app.AccountRepositoryDB;
 import com.qa.app.AccountRepositoryMap;
 
 public class AccountTest {
@@ -13,6 +14,26 @@ public class AccountTest {
 	@Before
 	public void setup() {
 		account = new Account(0, null, null, 0);
+	}
+	
+	@Test
+	public void removeAccount() {
+		AccountRepositoryDB db = new AccountRepositoryDB();
+		db.add(account);
+		int id = account.getId();
+		db.remove(id);
+		assertNull(db.retrieve(id));
+	}
+	
+	@Test
+	public void DBupdate() {
+		AccountRepositoryDB db = new AccountRepositoryDB();
+		account.setFirstName("Adrian");
+		db.add(account);
+		int id = account.getId();
+		db.updateFirstName(id, "Danny");
+		String firstName = db.retrieve(id).getFirstName();
+		assertEquals("Update Error", "Danny", firstName);
 	}
 	
 	@Test
@@ -52,5 +73,14 @@ public class AccountTest {
 		account.setAccountNumber(3);
 		int accountNumber = account.getAccountNumber();
 		assertEquals("Wrong account number", 3, accountNumber);
+	}
+	
+	@Test
+	public void DBtest() {
+		AccountRepositoryDB db = new AccountRepositoryDB();
+		db.add(account);
+		int id = account.getId();
+		Account accountBack = db.retrieve(id);
+		assertEquals(account, accountBack);
 	}
 }

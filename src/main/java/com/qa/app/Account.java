@@ -2,12 +2,13 @@ package com.qa.app;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Account {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -19,7 +20,6 @@ public class Account {
 
 	public void setId(int id) {
 		this.id = id;
-		//bloop
 	}
 
 	public Account(int id, String firstName, String lastName, int accountNumber) {
