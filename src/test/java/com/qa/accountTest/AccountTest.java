@@ -8,12 +8,31 @@ import org.junit.Test;
 import com.qa.app.Account;
 import com.qa.app.AccountRepositoryDB;
 import com.qa.app.AccountRepositoryMap;
+import com.qa.app.Task;
 
 public class AccountTest {
 	Account account;
 	@Before
 	public void setup() {
 		account = new Account(0, null, null, 0);
+	}
+	@Test
+	public void testy() {
+		AccountRepositoryDB db = new AccountRepositoryDB();
+		db.retrieveByName("Hugo");
+	}
+	
+	@Test
+	public void testTask() {
+		AccountRepositoryDB db = new AccountRepositoryDB();
+		account.setFirstName("Danny");
+		Task t = new Task();
+		t.setTodo("Dance");
+		Task t2 = new Task();
+		t2.setTodo("Dog");
+		account.getTasks().add(t);
+		account.getTasks().add(t2);
+		db.createWithTasks(account);
 	}
 	
 	@Test
